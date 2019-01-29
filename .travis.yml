@@ -1,0 +1,10 @@
+services:
+  - docker
+
+install:
+  - docker build -t phalcon-mongo-base .
+  - docker run -d --name phalcon-mongo-base phalcon-mongo-base
+
+script:
+  - docker ps | grep -q phalcon-mongo-base
+

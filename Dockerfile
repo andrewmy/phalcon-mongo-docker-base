@@ -1,6 +1,7 @@
 FROM php:7.2-fpm-alpine
 
 ENV PHALCON_VERSION=3.4.2
+ENV COMPOSER_ALLOW_SUPERUSER=1
 
 RUN NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) \
 	&& apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
@@ -11,8 +12,10 @@ RUN NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) \
 		gettext \
 		json \
 		opcache \
-	&& pecl install mongodb \
-	&& docker-php-ext-enable mongodb \
+	&& pecl install \
+        mongodb \
+        xdebug \
+	&& docker-php-ext-enable mongodb xdebug \
 	&& curl -sSL "https://codeload.github.com/phalcon/cphalcon/tar.gz/v${PHALCON_VERSION}" | tar -xz \
     && cd cphalcon-${PHALCON_VERSION}/build \
     && ./install \
@@ -22,6 +25,4 @@ RUN NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) \
     && apk del .build-deps
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-ENV COMPOSER_ALLOW_SUPERUSER=1
 
