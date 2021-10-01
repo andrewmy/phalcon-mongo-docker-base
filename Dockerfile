@@ -8,13 +8,15 @@ RUN NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) \
 	&& apk add --no-cache --virtual .ext-deps \
 		bash \
 		gettext-dev \
+		zlib-dev \
 	&& docker-php-ext-install -j${NPROC} \
 		gettext \
 		json \
 		opcache \
+		zip \
 	&& pecl install \
-        mongodb \
-        xdebug \
+                mongodb \
+                xdebug \
 	&& docker-php-ext-enable mongodb xdebug \
 	&& curl -sSL "https://codeload.github.com/phalcon/cphalcon/tar.gz/v${PHALCON_VERSION}" | tar -xz \
     && cd cphalcon-${PHALCON_VERSION}/build \
@@ -24,5 +26,4 @@ RUN NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) \
     && rm -r cphalcon-${PHALCON_VERSION} \
     && apk del .build-deps
 
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
