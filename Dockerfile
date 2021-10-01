@@ -8,15 +8,15 @@ RUN NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) \
 	&& apk add --no-cache --virtual .ext-deps \
 		bash \
 		gettext-dev \
-		zlib \
+		zlib-dev \
 	&& docker-php-ext-install -j${NPROC} \
 		gettext \
 		json \
 		opcache \
 		zip \
 	&& pecl install \
-        mongodb \
-        xdebug \
+                mongodb \
+                xdebug \
 	&& docker-php-ext-enable mongodb xdebug \
 	&& curl -sSL "https://codeload.github.com/phalcon/cphalcon/tar.gz/v${PHALCON_VERSION}" | tar -xz \
     && cd cphalcon-${PHALCON_VERSION}/build \
