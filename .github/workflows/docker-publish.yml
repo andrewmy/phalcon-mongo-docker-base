@@ -4,7 +4,7 @@ on:
   push:
     # Publish `main` as Docker `latest` image.
     branches:
-      - main
+      - master
 
     # Publish `v1.2.3` tags as releases.
     tags:
@@ -14,7 +14,7 @@ on:
   pull_request:
 
 env:
-  IMAGE_NAME: stomppy
+  IMAGE_NAME: phalcon-mongo-base
 
 jobs:
   # See also https://docs.docker.com/docker-hub/builds/automated-testing/
