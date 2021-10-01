@@ -8,6 +8,7 @@ RUN NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) \
 	&& apk add --no-cache --virtual .ext-deps \
 		bash \
 		gettext-dev \
+		zlib \
 	&& docker-php-ext-install -j${NPROC} \
 		gettext \
 		json \
